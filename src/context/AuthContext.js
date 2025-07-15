@@ -5,6 +5,8 @@ import { createContext, useContext, useState, useEffect } from "react";
 // Create a context for authentication
 const AuthContext = createContext();
 
+
+
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -16,6 +18,7 @@ export const useAuth = () => {
 // The AuthProvider component that provides the authentication context to the app
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Holds the authenticated user data
+  const [token, setToken] = useState(localStorage.getItem("token")) // ✅ Must be inside function
   const [loading, setLoading] = useState(true); // Loading state to prevent rendering before authentication
 
   // Load user from localStorage on initial render
@@ -81,6 +84,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       localStorage.setItem("token", data.access_token);
+      setToken(data.access_token);
 
       // 🟡 Fetch user info using token
       const me = await fetch("http://localhost:8000/user/me", {
@@ -142,6 +146,7 @@ export const AuthProvider = ({ children }) => {
   // Provide authentication data to children components
   const value = {
     user,
+    token,
     login,
     signup,
     logout,
