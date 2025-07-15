@@ -1,5 +1,6 @@
 "use client"
 
+import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from '../context/AuthContext'
@@ -15,6 +16,7 @@ const Login = () => {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")  // Added state for success message
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -22,7 +24,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = user.role === "admin" ? "/admin-dashboard" : location.state?.from?.pathname || "/"
+      const redirectPath = user.role === "admin" ? "/admindashboard" : location.state?.from?.pathname || "/"
       navigate(redirectPath, { replace: true })
     }
   }, [user, navigate, location.state])
@@ -30,6 +32,7 @@ const Login = () => {
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
     setError("")
+    setSuccessMessage("")  // Clear success message on input change
   }
 
   const validateForm = () => {
@@ -75,6 +78,7 @@ const Login = () => {
 
     setLoading(true)
     setError("")
+    setSuccessMessage("")  // Clear success message before submission
 
     try {
       const result = isSignup
@@ -83,6 +87,8 @@ const Login = () => {
 
       if (!result.success) {
         setError(result.error)
+      } else if (isSignup && result.success) {
+        setSuccessMessage("Account created successfully! Please log in.")  // Set success message on successful signup
       }
     } catch (err) {
       setError("An error occurred. Please try again.")
@@ -94,6 +100,7 @@ const Login = () => {
   const toggleMode = () => {
     setIsSignup(!isSignup)
     setError("")
+    setSuccessMessage("")  // Clear success message on switching modes
     setFormData({ emailOrUsername: "", email: "", username: "", password: "" })
   }
 
@@ -107,6 +114,7 @@ const Login = () => {
           <h2 className="login-title">{isSignup ? "Create Account" : "Welcome Back"}</h2>
 
           {error && <div className="error-message">{error}</div>}
+          {successMessage && <div className="success-message">{successMessage}</div>}  {/* Display success message */}
 
           <form className="login-form" onSubmit={handleSubmit}>
             {isSignup ? (
