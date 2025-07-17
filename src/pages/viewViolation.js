@@ -61,8 +61,6 @@ const ViewViolation = () => {
                   <th>Status</th>
                   <th>Confidence</th>
                   <th>Time</th>
-                  <th>Person ID</th>
-                  <th>Image ID</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,8 +71,6 @@ const ViewViolation = () => {
                     </td>
                     <td>{(v.confidence * 100).toFixed(1)}%</td>
                     <td>{new Date(v.timestamp).toLocaleString()}</td>
-                    <td>{v.person_id}</td>
-                    <td>{v.image_id}</td>
                   </tr>
                 ))}
               </tbody>
