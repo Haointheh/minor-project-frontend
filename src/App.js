@@ -7,7 +7,7 @@ import Contact from "./pages/contact"
 import Help from "./pages/help"
 import Login from "./pages/login"
 import PPEDetection from "./pages/ppedetection"
-import Dashboard from "./pages/dashboard"
+import Dashboard from "./pages/userdashboard"
 import AdminDashboard from "./pages/admindashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import "./App.css"
@@ -34,7 +34,7 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path="/userdashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
